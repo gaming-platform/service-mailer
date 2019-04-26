@@ -8,6 +8,7 @@ use Doctrine\Bundle\MigrationsBundle\DoctrineMigrationsBundle;
 use Symfony\Bundle\DebugBundle\DebugBundle;
 use Symfony\Bundle\FrameworkBundle\FrameworkBundle;
 use Symfony\Bundle\MonologBundle\MonologBundle;
+use Symfony\Bundle\SwiftmailerBundle\SwiftmailerBundle;
 use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
@@ -40,6 +41,7 @@ class AppKernel extends BaseKernel
         $bundles = [
             new FrameworkBundle(),
             new SymfonyBundlesJsonRequestBundle(),
+            new SwiftmailerBundle(),
             new DoctrineBundle(),
             new TwigBundle(),
             new MonologBundle()

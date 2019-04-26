@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace GamingPlatform\Mailer\Application;
 
 use GamingPlatform\Mailer\Application\Command\ScheduleMailCommand;
+use GamingPlatform\Mailer\Domain\Mail\Postman;
+use GamingPlatform\Mailer\Domain\Participant;
 use GamingPlatform\Mailer\Domain\Template\Engine;
 use GamingPlatform\Mailer\Domain\Template\Templates;
 
@@ -20,25 +22,34 @@ final class MailService
     private $templateEngine;
 
     /**
+     * @var Postman
+     */
+    private $postman;
+
+    /**
      * MailService constructor.
      *
      * @param Templates $templates
      * @param Engine    $templateEngine
+     * @param Postman   $postman
      */
-    public function __construct(Templates $templates, Engine $templateEngine)
+    public function __construct(Templates $templates, Engine $templateEngine, Postman $postman)
     {
         $this->templates = $templates;
         $this->templateEngine = $templateEngine;
+        $this->postman = $postman;
     }
 
     public function schedule(ScheduleMailCommand $scheduleMailCommand): void
     {
         $template = $this->templates->byName($scheduleMailCommand->templateName());
 
-        dump($this->templateEngine->render($template->subjectTemplate(), $scheduleMailCommand->templateParameters()));
-        dump($this->templateEngine->render($template->htmlTemplate(), $scheduleMailCommand->templateParameters()));
-        dump($this->templateEngine->render($template->textTemplate(), $scheduleMailCommand->templateParameters()));
-
-        // todo
+        $this->postman->deliver(
+            $template->sender(),
+            new Participant($scheduleMailCommand->receiverEmail(), $scheduleMailCommand->receiverName()),
+            $this->templateEngine->render($template->subjectTemplate(), $scheduleMailCommand->templateParameters()),
+            $this->templateEngine->render($template->htmlTemplate(), $scheduleMailCommand->templateParameters()),
+            $this->templateEngine->render($template->textTemplate(), $scheduleMailCommand->templateParameters())
+        );
     }
 }

@@ -31,7 +31,8 @@
     "symfony/asset": "^4.2",
     "twig/twig": "^2.7",
     "symfony/monolog-bundle": "^3.3",
-    "symfony-bundles/json-request-bundle": "^2.0"
+    "symfony-bundles/json-request-bundle": "^2.0",
+    "symfony/swiftmailer-bundle": "^3.2"
   },
   "require-dev": {
     "phpunit/phpunit": "^8.1",

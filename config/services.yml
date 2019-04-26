@@ -12,6 +12,7 @@ services:
         arguments:
             - '@templates'
             - '@template-engine'
+            - '@postman'
 
     template-engine:
         class: GamingPlatform\Mailer\Port\Adapter\TemplateEngine\TwigTemplateEngine
@@ -20,3 +21,8 @@ services:
 
     templates:
         class: GamingPlatform\Mailer\Port\Adapter\Persistence\Template\DummyTemplates
+
+    postman:
+        class: GamingPlatform\Mailer\Port\Adapter\Postman\SwiftMailerPostman
+        arguments:
+            - '@swiftmailer.mailer'

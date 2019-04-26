@@ -68,6 +68,13 @@ services:
             - "8081:80"
         links:
             - mysql
+    mailhog:
+        image: mailhog/mailhog
+        ports:
+            - "8082:8025"
+        links:
+            - php-fpm
+        restart: on-failure
 
 volumes:
     vendor:
