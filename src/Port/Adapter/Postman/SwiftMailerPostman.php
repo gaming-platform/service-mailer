@@ -43,7 +43,6 @@ final class SwiftMailerPostman implements Postman
                     ->setBody($htmlPart, 'text/html')
                     ->addPart($textPart, 'text/plain')
             );
-
         } catch (\Throwable $e) {
             throw new DeliverFailedException(
                 $e->getMessage(),
