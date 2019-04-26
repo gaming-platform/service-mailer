@@ -31,7 +31,6 @@ Hello {{ name }} {{ surname }},
 
 This is a dummy template.
 TEMPLATE
-
         );
     }
 }
