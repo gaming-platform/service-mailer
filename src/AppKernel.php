@@ -12,6 +12,7 @@ use Symfony\Bundle\TwigBundle\TwigBundle;
 use Symfony\Bundle\WebProfilerBundle\WebProfilerBundle;
 use Symfony\Component\Config\Loader\LoaderInterface;
 use Symfony\Component\HttpKernel\Kernel as BaseKernel;
+use SymfonyBundles\JsonRequestBundle\SymfonyBundlesJsonRequestBundle;
 
 class AppKernel extends BaseKernel
 {
@@ -38,6 +39,7 @@ class AppKernel extends BaseKernel
     {
         $bundles = [
             new FrameworkBundle(),
+            new SymfonyBundlesJsonRequestBundle(),
             new DoctrineBundle(),
             new TwigBundle(),
             new MonologBundle()

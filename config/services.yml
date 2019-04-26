@@ -2,5 +2,10 @@ services:
 
     mail-controller:
         class: GamingPlatform\Mailer\Port\Adapter\Http\MailController
+        arguments:
+            - '@mail-service'
         tags:
             - 'controller.service_arguments'
+
+    mail-service:
+        class: GamingPlatform\Mailer\Application\MailService
