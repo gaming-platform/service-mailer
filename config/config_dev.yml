@@ -1,0 +1,28 @@
+imports:
+    - { resource: config.yml }
+
+framework:
+    profiler:
+        only_exceptions: false
+    router:
+        resource: "%kernel.project_dir%/config/routing_dev.yml"
+
+web_profiler:
+    toolbar: true
+
+monolog:
+    handlers:
+        application_debug:
+            type: stream
+            path: "%kernel.logs_dir%/application.debug.log"
+            level: debug
+        application_deprecation:
+            level:    info
+            type:     stream
+            path:     "%kernel.logs_dir%/application.deprecation.log"
+            channels: [php]
+        application_doctrine:
+            level:    debug
+            type:     stream
+            path:     "%kernel.logs_dir%/application.doctrine.log"
+            channels: [doctrine]

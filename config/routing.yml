@@ -1,0 +1,6 @@
+schedule_mail:
+    path: /
+    methods:
+        - GET
+    defaults:
+        _controller: mail-controller:scheduleAction

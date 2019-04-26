@@ -1,0 +1,39 @@
+#!/usr/bin/env php
+<?php
+declare(strict_types=1);
+
+namespace {
+
+    use GamingPlatform\Mailer\AppKernel;
+    use Symfony\Bundle\FrameworkBundle\Console\Application;
+    use Symfony\Component\Console\Input\ArgvInput;
+    use Symfony\Component\Debug\Debug;
+    use Symfony\Component\Dotenv\Dotenv;
+
+    umask(0000);
+
+    set_time_limit(0);
+
+    require_once __DIR__ . '/../vendor/autoload.php';
+
+    $additionalEnvironmentPaths = [];
+    $additionalEnvironmentPath = __DIR__ . '/../config/environment.env';
+
+    if (file_exists($additionalEnvironmentPath)) {
+        $additionalEnvironmentPaths[] = $additionalEnvironmentPath;
+    }
+
+    (new Dotenv())->load(__DIR__ . '/../config/environment.env.dist', ...$additionalEnvironmentPaths);
+
+    $input = new ArgvInput();
+    $environment = $input->getParameterOption(['--env', '-e'], getenv('APPLICATION_ENVIRONMENT'));
+    $isDevelopmentEnvironment = $environment !== 'prod';
+
+    if ($isDevelopmentEnvironment) {
+        Debug::enable();
+    }
+
+    $kernel = new AppKernel($environment, $isDevelopmentEnvironment);
+    $application = new Application($kernel);
+    $application->run($input);
+}

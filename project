@@ -1,0 +1,73 @@
+#!/usr/bin/env bash
+
+help() {
+    echo
+    echo ------------------
+    echo Available commands
+    echo ------------------
+    echo build
+    echo Build the environment for development.
+    echo
+    echo up
+    echo Shorthand to start an already built project.
+    echo
+    echo down
+    echo Shorthand to down a started project.
+    echo
+    echo assets
+    echo Build assets for the browser and watch for changes.
+    echo
+    echo tests
+    echo Run unit tests, code sniffer, static analyzer and acceptance tests.
+    echo
+    echo unit
+    echo Run unit tests.
+    echo
+    echo sniffer
+    echo Run a code sniffer.
+    echo
+    echo analyzer
+    echo Run a static analyzer.
+    echo
+}
+
+build() {
+    docker-compose down --volumes
+    docker-compose build --pull
+    docker-compose up -d composer
+    docker cp "$(docker-compose ps -q composer)":/project/vendor ./
+    docker-compose up --remove-orphan
+}
+
+up() {
+    docker-compose up
+}
+
+down() {
+    docker-compose down
+}
+
+tests() {
+    unit
+    sniffer
+    analyzer
+}
+
+unit() {
+    docker-compose run php vendor/bin/phpunit --testsuite unit --coverage-text
+}
+
+sniffer() {
+    docker-compose run php vendor/bin/phpcs src tests --standard=PSR2 -v
+}
+
+analyzer() {
+    docker-compose run php vendor/bin/phpstan analyse -l max src
+}
+
+if [ "$*" = "" ]
+then
+    help
+else
+    $*
+fi

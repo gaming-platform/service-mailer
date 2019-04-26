@@ -1,0 +1,74 @@
+version: '3.7'
+
+services:
+    mysql:
+        build:
+            context: .
+            dockerfile: ./docker/mysql/Dockerfile
+        command: mysqld
+        environment:
+            MYSQL_ROOT_PASSWORD: password
+        volumes:
+            - mysql:/var/lib/mysql
+        restart: on-failure
+    nginx:
+        build:
+            context: .
+            dockerfile: ./docker/nginx/Dockerfile
+        ports:
+            - "80:80"
+        links:
+            - php-fpm
+        restart: on-failure
+    php-fpm:
+        build:
+            context: .
+            dockerfile: ./docker/php-fpm/Dockerfile
+        environment:
+            WAIT_FOR: mysql:3306
+        links:
+            - mysql
+        volumes:
+            - ./config:/project/config:delegated
+            - ./src:/project/src:delegated
+            - ./tests:/project/tests:delegated
+            - ./var:/project/var:delegated
+            - vendor:/project/vendor
+        restart: on-failure
+
+    ##############################
+    #     Development helper     #
+    ##############################
+    php:
+        build:
+            context: .
+            dockerfile: ./docker/php-fpm/Dockerfile
+        entrypoint: docker-php-entrypoint
+        volumes:
+            - ./src:/project/src:delegated
+            - ./tests:/project/tests:delegated
+            - vendor:/project/vendor
+    composer:
+        build:
+            context: .
+            dockerfile: ./docker/php-fpm/Dockerfile
+            target: builder
+        entrypoint: docker-php-entrypoint
+        volumes:
+            - ./composer.json:/project/composer.json
+            - ./composer.lock:/project/composer.lock
+            - vendor:/project/vendor
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        environment:
+            PMA_HOST: mysql
+            PMA_USER: root
+            PMA_PASSWORD: password
+        ports:
+            - "8081:80"
+        links:
+            - mysql
+
+volumes:
+    vendor:
+    mysql:
