@@ -25,6 +25,13 @@ final class MailController
         $this->mailService = $mailService;
     }
 
+    /**
+     * Endpoint for schedule a mail.
+     *
+     * @param Request $request
+     *
+     * @return JsonResponse
+     */
     public function scheduleAction(Request $request): JsonResponse
     {
         $templateParameters = $request->request->get('templateParameters', []);

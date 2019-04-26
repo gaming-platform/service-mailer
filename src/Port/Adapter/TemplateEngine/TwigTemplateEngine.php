@@ -24,6 +24,9 @@ final class TwigTemplateEngine implements Engine
         $this->twig = $twig;
     }
 
+    /**
+     * @inheritdoc
+     */
     public function render(string $template, array $parameters): string
     {
         try {
