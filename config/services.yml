@@ -9,3 +9,10 @@ services:
 
     mail-service:
         class: GamingPlatform\Mailer\Application\MailService
+        arguments:
+            - '@template-engine'
+
+    template-engine:
+        class: GamingPlatform\Mailer\Port\Adapter\TemplateEngine\TwigTemplateEngine
+        arguments:
+            - '@twig'
