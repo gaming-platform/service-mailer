@@ -1,6 +1,6 @@
 {
   "name": "gaming-platform/service-mailer",
-  "description": "A mailer service.",
+  "description": "This service provides a mail system for the gaming platform.",
   "authors": [
     {
       "name": "Markus Reinhold",

@@ -4,7 +4,7 @@ __Please don't use this service on your projects.
 It will have breaking changes.
 It is built exclusively for this platform.__
 
-This service provides mail system for the
+This service provides a mail system for the
 [gaming platform](https://github.com/gaming-platform).
 
 ## Installation and requirements

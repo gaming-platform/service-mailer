@@ -14,9 +14,6 @@ help() {
     echo down
     echo Shorthand to down a started project.
     echo
-    echo assets
-    echo Build assets for the browser and watch for changes.
-    echo
     echo tests
     echo Run unit tests, code sniffer, static analyzer and acceptance tests.
     echo
