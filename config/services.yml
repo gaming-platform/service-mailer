@@ -14,6 +14,11 @@ services:
             - '@template-engine'
             - '@postman'
 
+    template-service:
+        class: GamingPlatform\Mailer\Application\TemplateService
+        arguments:
+            - '@templates'
+
     template-engine:
         class: GamingPlatform\Mailer\Port\Adapter\TemplateEngine\TwigTemplateEngine
         arguments:

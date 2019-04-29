@@ -6,6 +6,7 @@ namespace GamingPlatform\Mailer\Port\Adapter\Persistence\Template;
 use Doctrine\ORM\EntityManager;
 use GamingPlatform\Mailer\Domain\Template\Exception\TemplateNotFoundException;
 use GamingPlatform\Mailer\Domain\Template\Template;
+use GamingPlatform\Mailer\Domain\Template\TemplateId;
 use GamingPlatform\Mailer\Domain\Template\Templates;
 
 final class DoctrineTemplates implements Templates
@@ -23,6 +24,23 @@ final class DoctrineTemplates implements Templates
     public function __construct(EntityManager $manager)
     {
         $this->manager = $manager;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function nextIdentity(): TemplateId
+    {
+        return TemplateId::generate();
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function save(Template $template): void
+    {
+        $this->manager->persist($template);
+        $this->manager->flush();
     }
 
     /**

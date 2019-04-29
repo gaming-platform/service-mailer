@@ -8,6 +8,20 @@ use GamingPlatform\Mailer\Domain\Template\Exception\TemplateNotFoundException;
 interface Templates
 {
     /**
+     * Get the next identity.
+     *
+     * @return TemplateId
+     */
+    public function nextIdentity(): TemplateId;
+
+    /**
+     * Save a template.
+     *
+     * @param Template $template
+     */
+    public function save(Template $template): void;
+
+    /**
      * Get a template by name.
      *
      * @param string $name
