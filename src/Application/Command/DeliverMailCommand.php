@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace GamingPlatform\Mailer\Application\Command;
 
-final class ScheduleMailCommand
+final class DeliverMailCommand
 {
     /**
      * @var string
@@ -26,7 +26,7 @@ final class ScheduleMailCommand
     private $templateParameters;
 
     /**
-     * ScheduleMail constructor.
+     * DeliverMailCommand constructor.
      *
      * @param string $receiverEmail
      * @param string $receiverName

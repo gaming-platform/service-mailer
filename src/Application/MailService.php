@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace GamingPlatform\Mailer\Application;
 
-use GamingPlatform\Mailer\Application\Command\ScheduleMailCommand;
+use GamingPlatform\Mailer\Application\Command\DeliverMailCommand;
 use GamingPlatform\Mailer\Domain\Mail\Exception\DeliverFailedException;
 use GamingPlatform\Mailer\Domain\Mail\Postman;
 use GamingPlatform\Mailer\Domain\Participant;
@@ -46,22 +46,22 @@ final class MailService
     /**
      * Deliver an email.
      *
-     * @param ScheduleMailCommand $scheduleMailCommand
+     * @param DeliverMailCommand $deliverMailCommand
      *
      * @throws DeliverFailedException
      * @throws RenderFailedException
      * @throws TemplateNotFoundException
      */
-    public function schedule(ScheduleMailCommand $scheduleMailCommand): void
+    public function deliver(DeliverMailCommand $deliverMailCommand): void
     {
-        $template = $this->templates->latestByName($scheduleMailCommand->templateName());
+        $template = $this->templates->latestByName($deliverMailCommand->templateName());
 
         $this->postman->deliver(
             $template->sender(),
-            new Participant($scheduleMailCommand->receiverEmail(), $scheduleMailCommand->receiverName()),
-            $this->templateEngine->renderText($template->subjectTemplate(), $scheduleMailCommand->templateParameters()),
-            $this->templateEngine->renderHtml($template->htmlTemplate(), $scheduleMailCommand->templateParameters()),
-            $this->templateEngine->renderText($template->textTemplate(), $scheduleMailCommand->templateParameters())
+            new Participant($deliverMailCommand->receiverEmail(), $deliverMailCommand->receiverName()),
+            $this->templateEngine->renderText($template->subjectTemplate(), $deliverMailCommand->templateParameters()),
+            $this->templateEngine->renderHtml($template->htmlTemplate(), $deliverMailCommand->templateParameters()),
+            $this->templateEngine->renderText($template->textTemplate(), $deliverMailCommand->templateParameters())
         );
     }
 }

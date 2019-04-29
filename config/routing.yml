@@ -1,6 +1,6 @@
-schedule_mail:
+deliver_mail:
     path: /
     methods:
         - POST
     defaults:
-        _controller: mail-controller:scheduleAction
+        _controller: mail-controller:deliverAction
