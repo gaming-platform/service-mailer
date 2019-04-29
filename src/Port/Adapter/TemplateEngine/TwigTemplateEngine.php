@@ -27,9 +27,27 @@ final class TwigTemplateEngine implements Engine
     /**
      * @inheritdoc
      */
-    public function render(string $template, array $parameters): string
+    public function renderHtml(string $template, array $parameters): string
     {
         try {
+            return $this->twig->createTemplate($template)->render($parameters);
+        } catch (\Throwable $e) {
+            throw new RenderFailedException(
+                $e->getMessage(),
+                $e->getCode(),
+                $e
+            );
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function renderText(string $template, array $parameters): string
+    {
+        try {
+            $template = '{% autoescape false %}' . $template . '{% endautoescape %}';
+
             return $this->twig->createTemplate($template)->render($parameters);
         } catch (\Throwable $e) {
             throw new RenderFailedException(

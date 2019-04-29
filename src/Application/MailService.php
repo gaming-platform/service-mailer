@@ -47,9 +47,9 @@ final class MailService
         $this->postman->deliver(
             $template->sender(),
             new Participant($scheduleMailCommand->receiverEmail(), $scheduleMailCommand->receiverName()),
-            $this->templateEngine->render($template->subjectTemplate(), $scheduleMailCommand->templateParameters()),
-            $this->templateEngine->render($template->htmlTemplate(), $scheduleMailCommand->templateParameters()),
-            $this->templateEngine->render($template->textTemplate(), $scheduleMailCommand->templateParameters())
+            $this->templateEngine->renderText($template->subjectTemplate(), $scheduleMailCommand->templateParameters()),
+            $this->templateEngine->renderHtml($template->htmlTemplate(), $scheduleMailCommand->templateParameters()),
+            $this->templateEngine->renderText($template->textTemplate(), $scheduleMailCommand->templateParameters())
         );
     }
 }
