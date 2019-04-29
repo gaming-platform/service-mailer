@@ -15,5 +15,5 @@ interface Templates
      * @return Template
      * @throws TemplateNotFoundException
      */
-    public function byName(string $name): Template;
+    public function latestByName(string $name): Template;
 }

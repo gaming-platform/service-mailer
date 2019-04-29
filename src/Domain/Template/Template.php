@@ -5,8 +5,16 @@ namespace GamingPlatform\Mailer\Domain\Template;
 
 use GamingPlatform\Mailer\Domain\Participant;
 
-final class Template
+/**
+ * @final Can not be set due doctrine.
+ */
+class Template
 {
+    /**
+     * @var TemplateId
+     */
+    private $templateId;
+
     /**
      * @var string
      */
@@ -33,26 +41,45 @@ final class Template
     private $textTemplate;
 
     /**
+     * @var \DateTimeImmutable
+     */
+    private $createdAt;
+
+    /**
      * Template constructor.
      *
-     * @param string $name
-     * @param Participant $sender
-     * @param string $subjectTemplate
-     * @param string $htmlTemplate
-     * @param string $textTemplate
+     * @param TemplateId         $templateId
+     * @param string             $name
+     * @param Participant        $sender
+     * @param string             $subjectTemplate
+     * @param string             $htmlTemplate
+     * @param string             $textTemplate
+     * @param \DateTimeImmutable $createdAt
      */
     public function __construct(
+        TemplateId $templateId,
         string $name,
         Participant $sender,
         string $subjectTemplate,
         string $htmlTemplate,
-        string $textTemplate
+        string $textTemplate,
+        \DateTimeImmutable $createdAt
     ) {
+        $this->templateId = $templateId;
         $this->name = $name;
         $this->sender = $sender;
         $this->subjectTemplate = $subjectTemplate;
         $this->htmlTemplate = $htmlTemplate;
         $this->textTemplate = $textTemplate;
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return TemplateId
+     */
+    public function id(): TemplateId
+    {
+        return $this->templateId;
     }
 
     /**
@@ -93,5 +120,13 @@ final class Template
     public function textTemplate(): string
     {
         return $this->textTemplate;
+    }
+
+    /**
+     * @return \DateTimeImmutable
+     */
+    public function createdAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
     }
 }

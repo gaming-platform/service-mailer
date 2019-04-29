@@ -1,0 +1,25 @@
+GamingPlatform\Mailer\Domain\Template\Template:
+    table: template
+    type: entity
+    embedded:
+        templateId:
+            class: GamingPlatform\Mailer\Domain\Template\TemplateId
+            columnPrefix: false
+        sender:
+            class: GamingPlatform\Mailer\Domain\Participant
+    fields:
+        name:
+            column: name
+            type: string
+        subjectTemplate:
+            column: subject_template
+            type: text
+        htmlTemplate:
+            column: html_template
+            type: text
+        textTemplate:
+            column: text_template
+            type: text
+        createdAt:
+            column: created_at
+            type: datetime_immutable

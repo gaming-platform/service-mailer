@@ -13,6 +13,8 @@ swiftmailer:
 
 doctrine:
     dbal:
+        types:
+            uuid_binary_ordered_time: Ramsey\Uuid\Doctrine\UuidBinaryOrderedTimeType
         connections:
             mailer:
                 url: '%env(APPLICATION_DOCTRINE_DBAL_URL)%'
@@ -21,6 +23,15 @@ doctrine:
                 default_table_options:
                     charset: utf8mb4
                     collate: utf8mb4_unicode_ci
+    orm:
+        entity_managers:
+            template:
+                connection: mailer
+                mappings:
+                    template:
+                        type:     yml
+                        dir:      '%kernel.project_dir%/src/Port/Adapter/Persistence/Template/DoctrineMapping'
+                        prefix:   GamingPlatform\Mailer\Domain
 
 monolog:
     handlers:

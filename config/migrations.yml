@@ -1,0 +1,4 @@
+name: Service Mailer Migrations
+migrations_namespace: GamingPlatform\Mailer\Port\Adapter\Persistence\Migration
+table_name: migration_versions
+migrations_directory: "../src/Port/Adapter/Persistence/Migration"

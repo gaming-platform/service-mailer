@@ -1,0 +1,9 @@
+GamingPlatform\Mailer\Domain\Participant:
+    type: embeddable
+    fields:
+        email:
+            column: email
+            type: string
+        name:
+            column: name
+            type: string

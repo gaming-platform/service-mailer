@@ -43,6 +43,7 @@ class AppKernel extends BaseKernel
             new SymfonyBundlesJsonRequestBundle(),
             new SwiftmailerBundle(),
             new DoctrineBundle(),
+            new DoctrineMigrationsBundle(),
             new TwigBundle(),
             new MonologBundle()
         ];

@@ -4,9 +4,12 @@ declare(strict_types=1);
 namespace GamingPlatform\Mailer\Application;
 
 use GamingPlatform\Mailer\Application\Command\ScheduleMailCommand;
+use GamingPlatform\Mailer\Domain\Mail\Exception\DeliverFailedException;
 use GamingPlatform\Mailer\Domain\Mail\Postman;
 use GamingPlatform\Mailer\Domain\Participant;
 use GamingPlatform\Mailer\Domain\Template\Engine;
+use GamingPlatform\Mailer\Domain\Template\Exception\RenderFailedException;
+use GamingPlatform\Mailer\Domain\Template\Exception\TemplateNotFoundException;
 use GamingPlatform\Mailer\Domain\Template\Templates;
 
 final class MailService
@@ -40,9 +43,18 @@ final class MailService
         $this->postman = $postman;
     }
 
+    /**
+     * Deliver an email.
+     *
+     * @param ScheduleMailCommand $scheduleMailCommand
+     *
+     * @throws DeliverFailedException
+     * @throws RenderFailedException
+     * @throws TemplateNotFoundException
+     */
     public function schedule(ScheduleMailCommand $scheduleMailCommand): void
     {
-        $template = $this->templates->byName($scheduleMailCommand->templateName());
+        $template = $this->templates->latestByName($scheduleMailCommand->templateName());
 
         $this->postman->deliver(
             $template->sender(),

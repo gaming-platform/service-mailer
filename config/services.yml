@@ -20,7 +20,9 @@ services:
             - '@twig'
 
     templates:
-        class: GamingPlatform\Mailer\Port\Adapter\Persistence\Template\DummyTemplates
+        class: GamingPlatform\Mailer\Port\Adapter\Persistence\Template\DoctrineTemplates
+        arguments:
+            - '@doctrine.orm.template_entity_manager'
 
     postman:
         class: GamingPlatform\Mailer\Port\Adapter\Postman\SwiftMailerPostman
