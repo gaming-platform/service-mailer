@@ -29,9 +29,9 @@ doctrine:
                 connection: mailer
                 mappings:
                     template:
-                        type:     yml
-                        dir:      '%kernel.project_dir%/src/Port/Adapter/Persistence/Template/DoctrineMapping'
-                        prefix:   GamingPlatform\Mailer\Domain
+                        type: yml
+                        dir: '%kernel.project_dir%/src/Port/Adapter/Persistence/Template/DoctrineMapping'
+                        prefix: GamingPlatform\Mailer\Domain
 
 monolog:
     handlers:
