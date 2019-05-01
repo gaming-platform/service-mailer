@@ -5,6 +5,7 @@ namespace GamingPlatform\Mailer\Application;
 
 use GamingPlatform\Mailer\Application\Command\DeliverMailCommand;
 use GamingPlatform\Mailer\Domain\Mail\Exception\DeliverFailedException;
+use GamingPlatform\Mailer\Domain\Mail\Mail;
 use GamingPlatform\Mailer\Domain\Mail\Postman;
 use GamingPlatform\Mailer\Domain\Participant;
 use GamingPlatform\Mailer\Domain\Template\Engine;
@@ -56,12 +57,14 @@ final class MailService
     {
         $template = $this->templates->latestByName($deliverMailCommand->templateName());
 
-        $this->postman->deliver(
+        $mail = new Mail(
             $template->sender(),
             new Participant($deliverMailCommand->receiverEmail(), $deliverMailCommand->receiverName()),
             $this->templateEngine->renderText($template->subjectTemplate(), $deliverMailCommand->templateParameters()),
             $this->templateEngine->renderHtml($template->htmlTemplate(), $deliverMailCommand->templateParameters()),
             $this->templateEngine->renderText($template->textTemplate(), $deliverMailCommand->templateParameters())
         );
+
+        $this->postman->deliver($mail);
     }
 }

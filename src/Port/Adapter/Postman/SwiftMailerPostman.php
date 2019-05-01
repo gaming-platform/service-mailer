@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace GamingPlatform\Mailer\Port\Adapter\Postman;
 
 use GamingPlatform\Mailer\Domain\Mail\Exception\DeliverFailedException;
+use GamingPlatform\Mailer\Domain\Mail\Mail;
 use GamingPlatform\Mailer\Domain\Mail\Postman;
-use GamingPlatform\Mailer\Domain\Participant;
 
 final class SwiftMailerPostman implements Postman
 {
@@ -27,21 +27,16 @@ final class SwiftMailerPostman implements Postman
     /**
      * @inheritdoc
      */
-    public function deliver(
-        Participant $sender,
-        Participant $receiver,
-        string $subject,
-        string $htmlPart,
-        string $textPart
-    ): void {
+    public function deliver(Mail $mail): void
+    {
         try {
             $this->swiftMailer->send(
                 (new \Swift_Message())
-                    ->setFrom($sender->email(), $sender->name())
-                    ->setTo($receiver->email(), $receiver->name())
-                    ->setSubject($subject)
-                    ->setBody($htmlPart, 'text/html')
-                    ->addPart($textPart, 'text/plain')
+                    ->setFrom($mail->sender()->email(), $mail->sender()->name())
+                    ->setTo($mail->receiver()->email(), $mail->receiver()->name())
+                    ->setSubject($mail->subject())
+                    ->setBody($mail->htmlPart(), 'text/html')
+                    ->addPart($mail->textPart(), 'text/plain')
             );
         } catch (\Throwable $e) {
             throw new DeliverFailedException(
