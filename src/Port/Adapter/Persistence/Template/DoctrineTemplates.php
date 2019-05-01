@@ -59,10 +59,10 @@ final class DoctrineTemplates implements Templates
      */
     public function latestByName(string $name): Template
     {
-        $repository = $this->manager->getRepository(Template::class);
-
         /** @var Template|null $template */
-        $template = $repository->createQueryBuilder('t')
+        $template = $this->manager->createQueryBuilder()
+            ->select('t')
+            ->from(Template::class, 't')
             ->where('t.name = :name')
             ->setMaxResults(1)
             ->orderBy('t.createdAt', 'desc')
