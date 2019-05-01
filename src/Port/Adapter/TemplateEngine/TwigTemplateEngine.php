@@ -29,15 +29,7 @@ final class TwigTemplateEngine implements Engine
      */
     public function renderHtml(string $template, array $parameters): string
     {
-        try {
-            return $this->twig->createTemplate($template)->render($parameters);
-        } catch (\Throwable $e) {
-            throw new RenderFailedException(
-                $e->getMessage(),
-                $e->getCode(),
-                $e
-            );
-        }
+        return $this->render($template, $parameters);
     }
 
     /**
@@ -45,9 +37,24 @@ final class TwigTemplateEngine implements Engine
      */
     public function renderText(string $template, array $parameters): string
     {
-        try {
-            $template = '{% autoescape false %}' . $template . '{% endautoescape %}';
+        return $this->render(
+            '{% autoescape false %}' . $template . '{% endautoescape %}',
+            $parameters
+        );
+    }
 
+    /**
+     * Render through twig and translate exceptions.
+     *
+     * @param string $template
+     * @param array  $parameters
+     *
+     * @return string
+     * @throws RenderFailedException
+     */
+    private function render(string $template, array $parameters): string
+    {
+        try {
             return $this->twig->createTemplate($template)->render($parameters);
         } catch (\Throwable $e) {
             throw new RenderFailedException(
