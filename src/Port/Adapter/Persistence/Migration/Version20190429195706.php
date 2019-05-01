@@ -24,6 +24,8 @@ final class Version20190429195706 extends AbstractMigration
         $table->addColumn('text_template', 'text');
         $table->addColumn('created_at', 'datetime_immutable');
 
+        $table->addUniqueIndex(['name', 'created_at'], 'uniq_template_name_created_at');
+
         $table->setPrimaryKey(['id']);
     }
 

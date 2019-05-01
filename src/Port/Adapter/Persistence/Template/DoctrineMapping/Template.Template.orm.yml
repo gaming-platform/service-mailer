@@ -1,6 +1,9 @@
 GamingPlatform\Mailer\Domain\Template\Template:
     table: template
     type: entity
+    uniqueConstraints:
+        uniq_template_name_created_at:
+            columns: [name, created_at]
     embedded:
         templateId:
             class: GamingPlatform\Mailer\Domain\Template\TemplateId
