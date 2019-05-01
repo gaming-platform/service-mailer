@@ -22,6 +22,11 @@ interface Templates
     public function save(Template $template): void;
 
     /**
+     * Remove all templates.
+     */
+    public function removeAll(): void;
+
+    /**
      * Get a template by name.
      *
      * @param string $name

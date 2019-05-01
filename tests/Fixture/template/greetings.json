@@ -1,0 +1,8 @@
+{
+  "name": "greetings",
+  "senderEmail": "john@doe.de",
+  "senderName": "John Doe",
+  "subjectTemplate": "Hello {{ name }}",
+  "htmlTemplate": "<p>Hello {{ name }} {{ surname }},</p><p>greetings from the world.</p>",
+  "textTemplate": "Hello {{ name }} {{ surname }},\n\ngreetings from the world."
+}

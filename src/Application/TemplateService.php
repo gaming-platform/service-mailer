@@ -46,4 +46,12 @@ final class TemplateService
 
         $this->templates->save($template);
     }
+
+    /**
+     * Remove all templates.
+     */
+    public function removeAllTemplates(): void
+    {
+        $this->templates->removeAll();
+    }
 }

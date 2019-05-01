@@ -7,6 +7,14 @@ services:
         tags:
             - 'controller.service_arguments'
 
+    overwrite-with-import-command:
+        class: GamingPlatform\Mailer\Port\Adapter\Console\OverwriteWithImportCommand
+        arguments:
+            - '@template-service'
+            - '%kernel.project_dir%/import'
+        tags:
+            -  { name: console.command }
+
     mail-service:
         class: GamingPlatform\Mailer\Application\MailService
         arguments:

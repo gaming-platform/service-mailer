@@ -26,6 +26,7 @@ services:
             dockerfile: ./docker/php-fpm/Dockerfile
         environment:
             WAIT_FOR: mysql:3306
+            APPLICATION_OVERWRITE_WITH_IMPORT_ON_STARTUP: "true"
         links:
             - mysql
         volumes:
@@ -33,6 +34,7 @@ services:
             - ./src:/project/src:delegated
             - ./tests:/project/tests:delegated
             - ./var:/project/var:delegated
+            - ./tests/Fixture/template:/project/import/template:delegated
             - vendor:/project/vendor
         restart: on-failure
 

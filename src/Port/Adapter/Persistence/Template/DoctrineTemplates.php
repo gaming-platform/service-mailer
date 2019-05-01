@@ -46,6 +46,17 @@ final class DoctrineTemplates implements Templates
     /**
      * @inheritdoc
      */
+    public function removeAll(): void
+    {
+        $this->manager->createQueryBuilder()
+            ->delete(Template::class)
+            ->getQuery()
+            ->execute();
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function latestByName(string $name): Template
     {
         $repository = $this->manager->getRepository(Template::class);
