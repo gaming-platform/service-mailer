@@ -41,7 +41,7 @@ final class MailController
                 $request->request->get('receiverEmail', ''),
                 $request->request->get('receiverName', ''),
                 $request->request->get('templateName', ''),
-                is_array($templateParameters) ? $templateParameters : [],
+                is_array($templateParameters) ? $templateParameters : []
             )
         );
 

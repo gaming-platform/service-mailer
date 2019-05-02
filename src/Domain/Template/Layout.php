@@ -3,8 +3,6 @@ declare(strict_types=1);
 
 namespace GamingPlatform\Mailer\Domain\Template;
 
-use GamingPlatform\Mailer\Domain\Participant;
-
 /**
  * @final Can not be set due doctrine.
  */
@@ -43,11 +41,11 @@ class Layout
     /**
      * Layout constructor.
      *
-     * @param LayoutId $layoutId
-     * @param string $name
-     * @param string $placeholderIdentifier
-     * @param string $htmlTemplate
-     * @param string $textTemplate
+     * @param LayoutId           $layoutId
+     * @param string             $name
+     * @param string             $placeholderIdentifier
+     * @param string             $htmlTemplate
+     * @param string             $textTemplate
      * @param \DateTimeImmutable $createdAt
      */
     public function __construct(
