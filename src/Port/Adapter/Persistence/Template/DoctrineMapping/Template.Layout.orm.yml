@@ -1,25 +1,20 @@
-GamingPlatform\Mailer\Domain\Template\Template:
-    table: template
+GamingPlatform\Mailer\Domain\Template\Layout:
+    table: layout
     type: entity
     uniqueConstraints:
-        uniq_template_name_created_at:
+        uniq_layout_name_created_at:
             columns: [name, created_at]
     embedded:
-        templateId:
-            class: GamingPlatform\Mailer\Domain\Template\TemplateId
+        layoutId:
+            class: GamingPlatform\Mailer\Domain\Template\LayoutId
             columnPrefix: false
-        sender:
-            class: GamingPlatform\Mailer\Domain\Participant
     fields:
         name:
             column: name
             type: string
-        layoutName:
-            column: layout_name
+        placeholderIdentifier:
+            column: placeholder_identifier
             type: string
-        subjectTemplate:
-            column: subject_template
-            type: text
         htmlTemplate:
             column: html_template
             type: text

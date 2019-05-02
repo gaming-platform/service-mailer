@@ -13,6 +13,11 @@ final class NewTemplateRevisionCommand
     /**
      * @var string
      */
+    private $layoutName;
+
+    /**
+     * @var string
+     */
     private $senderEmail;
 
     /**
@@ -39,6 +44,7 @@ final class NewTemplateRevisionCommand
      * NewTemplateRevisionCommand constructor.
      *
      * @param string $name
+     * @param string $layoutName
      * @param string $senderEmail
      * @param string $senderName
      * @param string $subjectTemplate
@@ -47,6 +53,7 @@ final class NewTemplateRevisionCommand
      */
     public function __construct(
         string $name,
+        string $layoutName,
         string $senderEmail,
         string $senderName,
         string $subjectTemplate,
@@ -54,6 +61,7 @@ final class NewTemplateRevisionCommand
         string $textTemplate
     ) {
         $this->name = $name;
+        $this->layoutName = $layoutName;
         $this->senderEmail = $senderEmail;
         $this->senderName = $senderName;
         $this->subjectTemplate = $subjectTemplate;
@@ -67,6 +75,14 @@ final class NewTemplateRevisionCommand
     public function name(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function layoutName(): string
+    {
+        return $this->layoutName;
     }
 
     /**

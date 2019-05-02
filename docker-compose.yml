@@ -35,6 +35,7 @@ services:
             - ./tests:/project/tests:delegated
             - ./var:/project/var:delegated
             - ./tests/Fixture/template:/project/import/template:delegated
+            - ./tests/Fixture/layout:/project/import/layout:delegated
             - vendor:/project/vendor
         restart: on-failure
 

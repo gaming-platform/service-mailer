@@ -3,13 +3,21 @@ declare(strict_types=1);
 
 namespace GamingPlatform\Mailer\Application;
 
+use GamingPlatform\Mailer\Application\Command\NewLayoutRevisionCommand;
 use GamingPlatform\Mailer\Application\Command\NewTemplateRevisionCommand;
 use GamingPlatform\Mailer\Domain\Participant;
+use GamingPlatform\Mailer\Domain\Template\Layout;
+use GamingPlatform\Mailer\Domain\Template\Layouts;
 use GamingPlatform\Mailer\Domain\Template\Template;
 use GamingPlatform\Mailer\Domain\Template\Templates;
 
 final class TemplateService
 {
+    /**
+     * @var Layouts
+     */
+    private $layouts;
+
     /**
      * @var Templates
      */
@@ -18,11 +26,42 @@ final class TemplateService
     /**
      * TemplateService constructor.
      *
+     * @param Layouts   $layouts
      * @param Templates $templates
      */
-    public function __construct(Templates $templates)
+    public function __construct(Layouts $layouts, Templates $templates)
     {
+        $this->layouts = $layouts;
         $this->templates = $templates;
+    }
+
+    /**
+     * Add a new layout revision.
+     *
+     * @param NewLayoutRevisionCommand $newLayoutRevisionCommand
+     *
+     * @throws \Exception
+     */
+    public function newLayoutRevision(NewLayoutRevisionCommand $newLayoutRevisionCommand): void
+    {
+        $layout = new Layout(
+            $this->layouts->nextIdentity(),
+            $newLayoutRevisionCommand->name(),
+            $newLayoutRevisionCommand->placeholderIdentifier(),
+            $newLayoutRevisionCommand->htmlTemplate(),
+            $newLayoutRevisionCommand->textTemplate(),
+            new \DateTimeImmutable()
+        );
+
+        $this->layouts->save($layout);
+    }
+
+    /**
+     * Remove all layouts.
+     */
+    public function removeAllLayouts(): void
+    {
+        $this->layouts->removeAll();
     }
 
     /**
@@ -37,6 +76,7 @@ final class TemplateService
         $template = new Template(
             $this->templates->nextIdentity(),
             $newTemplateRevisionCommand->name(),
+            $newTemplateRevisionCommand->layoutName(),
             new Participant($newTemplateRevisionCommand->senderEmail(), $newTemplateRevisionCommand->senderName()),
             $newTemplateRevisionCommand->subjectTemplate(),
             $newTemplateRevisionCommand->htmlTemplate(),

@@ -11,10 +11,16 @@ use GamingPlatform\Mailer\Domain\Participant;
 use GamingPlatform\Mailer\Domain\Template\Engine;
 use GamingPlatform\Mailer\Domain\Template\Exception\RenderFailedException;
 use GamingPlatform\Mailer\Domain\Template\Exception\TemplateNotFoundException;
+use GamingPlatform\Mailer\Domain\Template\Layouts;
 use GamingPlatform\Mailer\Domain\Template\Templates;
 
 final class MailService
 {
+    /**
+     * @var Layouts
+     */
+    private $layouts;
+
     /**
      * @var Templates
      */
@@ -33,12 +39,14 @@ final class MailService
     /**
      * MailService constructor.
      *
+     * @param Layouts   $layouts
      * @param Templates $templates
      * @param Engine    $templateEngine
      * @param Postman   $postman
      */
-    public function __construct(Templates $templates, Engine $templateEngine, Postman $postman)
+    public function __construct(Layouts $layouts, Templates $templates, Engine $templateEngine, Postman $postman)
     {
+        $this->layouts = $layouts;
         $this->templates = $templates;
         $this->templateEngine = $templateEngine;
         $this->postman = $postman;
@@ -56,13 +64,17 @@ final class MailService
     public function deliver(DeliverMailCommand $deliverMailCommand): void
     {
         $template = $this->templates->latestByName($deliverMailCommand->templateName());
+        $layout = $this->layouts->latestByName($template->layoutName());
+
+        $htmlTemplate = $layout->wrapHtml($template->htmlTemplate());
+        $textTemplate = $layout->wrapText($template->textTemplate());
 
         $mail = new Mail(
             $template->sender(),
             new Participant($deliverMailCommand->receiverEmail(), $deliverMailCommand->receiverName()),
             $this->templateEngine->renderText($template->subjectTemplate(), $deliverMailCommand->templateParameters()),
-            $this->templateEngine->renderHtml($template->htmlTemplate(), $deliverMailCommand->templateParameters()),
-            $this->templateEngine->renderText($template->textTemplate(), $deliverMailCommand->templateParameters())
+            $this->templateEngine->renderHtml($htmlTemplate, $deliverMailCommand->templateParameters()),
+            $this->templateEngine->renderText($textTemplate, $deliverMailCommand->templateParameters())
         );
 
         $this->postman->deliver($mail);

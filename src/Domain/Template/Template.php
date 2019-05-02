@@ -21,6 +21,11 @@ class Template
     private $name;
 
     /**
+     * @var string
+     */
+    private $layoutName;
+
+    /**
      * @var Participant
      */
     private $sender;
@@ -50,6 +55,7 @@ class Template
      *
      * @param TemplateId         $templateId
      * @param string             $name
+     * @param string             $layoutName
      * @param Participant        $sender
      * @param string             $subjectTemplate
      * @param string             $htmlTemplate
@@ -59,6 +65,7 @@ class Template
     public function __construct(
         TemplateId $templateId,
         string $name,
+        string $layoutName,
         Participant $sender,
         string $subjectTemplate,
         string $htmlTemplate,
@@ -67,6 +74,7 @@ class Template
     ) {
         $this->templateId = $templateId;
         $this->name = $name;
+        $this->layoutName = $layoutName;
         $this->sender = $sender;
         $this->subjectTemplate = $subjectTemplate;
         $this->htmlTemplate = $htmlTemplate;
@@ -88,6 +96,14 @@ class Template
     public function name(): string
     {
         return $this->name;
+    }
+
+    /**
+     * @return string
+     */
+    public function layoutName(): string
+    {
+        return $this->layoutName;
     }
 
     /**

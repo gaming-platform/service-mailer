@@ -1,5 +1,6 @@
 {
   "name": "greetings",
+  "layoutName": "default",
   "senderEmail": "john@doe.de",
   "senderName": "John Doe",
   "subjectTemplate": "Hello {{ name }}",

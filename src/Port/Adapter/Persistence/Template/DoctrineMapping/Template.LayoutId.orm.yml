@@ -1,0 +1,6 @@
+GamingPlatform\Mailer\Domain\Template\LayoutId:
+    type: embeddable
+    id:
+        layoutId:
+            column: id
+            type: uuid_binary_ordered_time

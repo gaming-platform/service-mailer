@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace GamingPlatform\Mailer\Port\Adapter\Console;
 
+use GamingPlatform\Mailer\Application\Command\NewLayoutRevisionCommand;
 use GamingPlatform\Mailer\Application\Command\NewTemplateRevisionCommand;
 use GamingPlatform\Mailer\Application\TemplateService;
 use Symfony\Component\Console\Command\Command;
@@ -58,22 +59,76 @@ final class OverwriteWithImportCommand extends Command
 
         $output->writeln('Import started.');
 
+        $layoutDirectory = $this->importDirectory . '/layout';
         $templateDirectory = $this->importDirectory . '/template';
+        $directories = [$layoutDirectory, $templateDirectory];
 
-        if (!is_dir($templateDirectory)) {
-            $output->writeln('Skip import. Directory "' . $templateDirectory . '" does not exist.');
-            return;
+        foreach ($directories as $directory) {
+            if (!is_dir($directory)) {
+                $output->writeln('Skip import. Directory "' . $directory . '" does not exist.');
+                return;
+            }
         }
 
-        $templateFinder = (new Finder())
-            ->in($templateDirectory)
-            ->files();
+        $layoutFinder = (new Finder())->in($layoutDirectory)->files();
+        $templateFinder = (new Finder())->in($templateDirectory)->files();
 
-        if ($templateFinder->count() === 0) {
-            $output->writeln('Skip import. No files in "' . $templateDirectory . '".');
-            return;
+        foreach ([$layoutFinder, $templateFinder] as $index => $finder) {
+            if ($finder->count() === 0) {
+                $output->writeln('Skip import. No files in "' . $directories[$index] . '".');
+                return;
+            }
         }
 
+        $this->importLayouts($layoutFinder, $output);
+        $this->importTemplates($templateFinder, $output);
+    }
+
+    /**
+     * Import layouts.
+     *
+     * @param Finder          $layoutFinder
+     * @param OutputInterface $output
+     */
+    private function importLayouts(Finder $layoutFinder, OutputInterface $output): void
+    {
+        $this->templateService->removeAllLayouts();
+        $output->writeln('Layouts removed.');
+
+        foreach ($layoutFinder->getIterator() as $layoutFile) {
+            $layout = json_decode($layoutFile->getContents(), true);
+
+            if ($layout === null) {
+                $output->writeln('Skip "' . $layoutFile->getFilename() . '": ' . json_last_error_msg());
+                continue;
+            }
+
+            try {
+                $this->templateService->newLayoutRevision(
+                    new NewLayoutRevisionCommand(
+                        (string)($layout['name'] ?? ''),
+                        (string)($layout['placeholderIdentifier'] ?? ''),
+                        (string)($layout['htmlTemplate'] ?? ''),
+                        (string)($layout['textTemplate'] ?? '')
+                    )
+                );
+
+                $output->writeln('Successfully imported "' . $layoutFile->getFilename() . '".');
+            } catch (\Throwable $e) {
+                $output->writeln('Error while importing "' . $layoutFile->getFilename() . '".');
+                $output->writeln('Error: ' . $e->getMessage());
+            }
+        }
+    }
+
+    /**
+     * Import templates.
+     *
+     * @param Finder          $templateFinder
+     * @param OutputInterface $output
+     */
+    private function importTemplates(Finder $templateFinder, OutputInterface $output): void
+    {
         $this->templateService->removeAllTemplates();
         $output->writeln('Templates removed.');
 
@@ -89,6 +144,7 @@ final class OverwriteWithImportCommand extends Command
                 $this->templateService->newTemplateRevision(
                     new NewTemplateRevisionCommand(
                         (string)($template['name'] ?? ''),
+                        (string)($template['layoutName'] ?? ''),
                         (string)($template['senderEmail'] ?? ''),
                         (string)($template['senderName'] ?? ''),
                         (string)($template['subjectTemplate'] ?? ''),
