@@ -4,3 +4,10 @@ deliver_mail:
         - POST
     defaults:
         _controller: mail-controller:deliverAction
+
+remove_template_revision:
+    path: /templates/{name}/revisions/{revisionId}
+    methods:
+        - DELETE
+    defaults:
+        _controller: template-controller:removeTemplateRevisionAction

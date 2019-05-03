@@ -7,6 +7,13 @@ services:
         tags:
             - 'controller.service_arguments'
 
+    template-controller:
+        class: GamingPlatform\Mailer\Port\Adapter\Http\TemplateController
+        arguments:
+            - '@template-service'
+        tags:
+            - 'controller.service_arguments'
+
     overwrite-with-import-command:
         class: GamingPlatform\Mailer\Port\Adapter\Console\OverwriteWithImportCommand
         arguments:

@@ -46,6 +46,27 @@ final class DoctrineTemplates implements Templates
     /**
      * @inheritdoc
      */
+    public function removeRevision(string $name, TemplateId $templateId): void
+    {
+        $numberOfAffectedRows = $this->manager->createQueryBuilder()
+            ->delete(Template::class, 't')
+            ->where('t.name = :name')
+            ->andWhere('t.templateId.templateId = :templateId')
+            ->setParameter('name', $name)
+            ->setParameter('templateId', $templateId->toString(), 'uuid_binary_ordered_time')
+            ->getQuery()
+            ->execute();
+
+        if ($numberOfAffectedRows === 0) {
+            throw new TemplateNotFoundException(
+                'Template revision "' . $templateId->toString() . '" not found.'
+            );
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function removeAll(): void
     {
         $this->manager->createQueryBuilder()

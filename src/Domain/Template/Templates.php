@@ -22,6 +22,16 @@ interface Templates
     public function save(Template $template): void;
 
     /**
+     * Remove template revision.
+     *
+     * @param string     $name
+     * @param TemplateId $templateId
+     *
+     * @throws TemplateNotFoundException
+     */
+    public function removeRevision(string $name, TemplateId $templateId): void;
+
+    /**
      * Remove all templates.
      */
     public function removeAll(): void;

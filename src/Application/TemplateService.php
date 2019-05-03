@@ -5,10 +5,13 @@ namespace GamingPlatform\Mailer\Application;
 
 use GamingPlatform\Mailer\Application\Command\NewLayoutRevisionCommand;
 use GamingPlatform\Mailer\Application\Command\NewTemplateRevisionCommand;
+use GamingPlatform\Mailer\Application\Command\RemoveTemplateRevisionCommand;
 use GamingPlatform\Mailer\Domain\Participant;
+use GamingPlatform\Mailer\Domain\Template\Exception\TemplateNotFoundException;
 use GamingPlatform\Mailer\Domain\Template\Layout;
 use GamingPlatform\Mailer\Domain\Template\Layouts;
 use GamingPlatform\Mailer\Domain\Template\Template;
+use GamingPlatform\Mailer\Domain\Template\TemplateId;
 use GamingPlatform\Mailer\Domain\Template\Templates;
 
 final class TemplateService
@@ -85,6 +88,21 @@ final class TemplateService
         );
 
         $this->templates->save($template);
+    }
+
+    /**
+     * Remove a template revision.
+     *
+     * @param RemoveTemplateRevisionCommand $removeTemplateRevisionCommand
+     *
+     * @throws TemplateNotFoundException
+     */
+    public function removeTemplateRevision(RemoveTemplateRevisionCommand $removeTemplateRevisionCommand): void
+    {
+        $this->templates->removeRevision(
+            $removeTemplateRevisionCommand->name(),
+            TemplateId::fromString($removeTemplateRevisionCommand->revisionId())
+        );
     }
 
     /**
