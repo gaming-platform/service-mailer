@@ -4,6 +4,7 @@ deliver_mail:
         - POST
     defaults:
         _controller: mail-controller:deliverAction
+        _format: json
 
 remove_template_revision:
     path: /templates/{name}/revisions/{revisionId}
@@ -11,3 +12,4 @@ remove_template_revision:
         - DELETE
     defaults:
         _controller: template-controller:removeTemplateRevisionAction
+        _format: json
