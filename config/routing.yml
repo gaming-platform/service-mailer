@@ -6,6 +6,14 @@ deliver_mail:
         _controller: mail-controller:deliverAction
         _format: json
 
+remove_template:
+    path: /templates/{name}
+    methods:
+        - DELETE
+    defaults:
+        _controller: template-controller:removeTemplateAction
+        _format: json
+
 remove_template_revision:
     path: /templates/{name}/revisions/{revisionId}
     methods:

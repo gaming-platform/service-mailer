@@ -5,6 +5,7 @@ namespace GamingPlatform\Mailer\Application;
 
 use GamingPlatform\Mailer\Application\Command\NewLayoutRevisionCommand;
 use GamingPlatform\Mailer\Application\Command\NewTemplateRevisionCommand;
+use GamingPlatform\Mailer\Application\Command\RemoveTemplateCommand;
 use GamingPlatform\Mailer\Application\Command\RemoveTemplateRevisionCommand;
 use GamingPlatform\Mailer\Domain\Participant;
 use GamingPlatform\Mailer\Domain\Template\Exception\TemplateNotFoundException;
@@ -88,6 +89,20 @@ final class TemplateService
         );
 
         $this->templates->save($template);
+    }
+
+    /**
+     * Remove a template.
+     *
+     * @param RemoveTemplateCommand $removeTemplateCommand
+     *
+     * @throws TemplateNotFoundException
+     */
+    public function removeTemplate(RemoveTemplateCommand $removeTemplateCommand): void
+    {
+        $this->templates->remove(
+            $removeTemplateCommand->name()
+        );
     }
 
     /**
