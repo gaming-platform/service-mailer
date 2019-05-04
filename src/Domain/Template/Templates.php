@@ -22,7 +22,7 @@ interface Templates
     public function save(Template $template): void;
 
     /**
-     * Remove template revision.
+     * Remove a template revision.
      *
      * @param string     $name
      * @param TemplateId $templateId
