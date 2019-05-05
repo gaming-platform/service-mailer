@@ -27,12 +27,12 @@ interface Layouts
     public function removeAll(): void;
 
     /**
-     * Get a layout by name.
+     * Get the latest layout revision by name.
      *
      * @param string $name
      *
      * @return Layout
      * @throws LayoutNotFoundException
      */
-    public function latestByName(string $name): Layout;
+    public function latestRevisionByName(string $name): Layout;
 }

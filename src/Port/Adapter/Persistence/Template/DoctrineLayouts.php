@@ -57,7 +57,7 @@ final class DoctrineLayouts implements Layouts
     /**
      * @inheritdoc
      */
-    public function latestByName(string $name): Layout
+    public function latestRevisionByName(string $name): Layout
     {
         /** @var Layout|null $layout */
         $layout = $this->manager->createQueryBuilder()
