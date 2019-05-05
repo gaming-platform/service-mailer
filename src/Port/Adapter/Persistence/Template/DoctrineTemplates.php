@@ -97,7 +97,7 @@ final class DoctrineTemplates implements Templates
     /**
      * @inheritdoc
      */
-    public function latestByName(string $name): Template
+    public function latestRevisionByName(string $name): Template
     {
         /** @var Template|null $template */
         $template = $this->manager->createQueryBuilder()

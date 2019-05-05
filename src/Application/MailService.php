@@ -63,7 +63,7 @@ final class MailService
      */
     public function deliver(DeliverMailCommand $deliverMailCommand): void
     {
-        $template = $this->templates->latestByName($deliverMailCommand->templateName());
+        $template = $this->templates->latestRevisionByName($deliverMailCommand->templateName());
         $layout = $this->layouts->latestByName($template->layoutName());
 
         $htmlTemplate = $layout->wrapHtml($template->htmlTemplate());

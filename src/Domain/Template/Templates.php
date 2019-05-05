@@ -46,12 +46,12 @@ interface Templates
     public function removeAll(): void;
 
     /**
-     * Get a template by name.
+     * Get the latest template revision by name.
      *
      * @param string $name
      *
      * @return Template
      * @throws TemplateNotFoundException
      */
-    public function latestByName(string $name): Template;
+    public function latestRevisionByName(string $name): Template;
 }
